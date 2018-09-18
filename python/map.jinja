@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{%- set os         = salt['grains.get']('os') %}
+{%- set osrelease  = salt['grains.get']('osrelease') %}
+{%- set oscodename = salt['grains.get']('oscodename') %}
+
+{## Start with defaults from defaults.yaml ##}
+{% import_yaml 'python/defaults.yaml' as default_settings %}
+
+{% set version       = "%s"|format(salt['pillar.get']('python:version', salt['grains.get']('pythonversion')[:3])) %}
+{% set major_version = version.split('.')[0]|int %}
+
+{##
+Setup variables using grains['os_family'] based logic, only add key:values
+that differ from what is in defaults.yaml
+##}
+{% set os_family_map = salt['grains.filter_by']({
+    'Debian': {
+        'version': version,
+        'major_version': major_version,
+        'python_pkgs': ['python', 'python3'],
+        'pip_pkgs': ['python-pip', 'python-setuptools', 'python3-pip', 'python3-setuptools'],
+        'pip_bin': '/usr/bin/pip',
+        'pip3_bin': '/usr/bin/pip3',
+    },
+}
+, grain="os_family"
+, merge=salt['pillar.get']('python:lookup')) %}
+
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.python.update(os_family_map) %}
+
+{## Merge in python:lookup pillar ##}
+{% set python = salt['pillar.get'](
+        'python',
+        default=default_settings.python,
+        merge=True
+    )
+%}
