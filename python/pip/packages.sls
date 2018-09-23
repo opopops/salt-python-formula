@@ -6,12 +6,10 @@ include:
 {%- if 'pip' in python %}
   {%- for package, params in python.pip.get('packages', {}).items() %}
     {%- set package_name = params.name|default(package) %}
-    {%- set config       = python.pip.get('config', {}) %}
-    {%- do config.update(params.get('config', {})) %}
 python_pip_{{package}}_package:
   pip.installed:
     - name: {{ package_name }}
-    {%- for k, v in config.items() %}
+    {%- for k, v in params.get('options', {}).items() %}
     - {{k}}: {{v}}
     {%- endfor %}
     - require:

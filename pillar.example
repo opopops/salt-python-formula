@@ -4,29 +4,35 @@ python:
 
   virtualenv:
     version: 16.0.0
-    config:
-      python: /usr/bin/python3
+
     venvs:
       app:
         path: /op/app/venv
-        config:
+        options:
+          python: /usr/bin/python3
           user: pyuser
+        pip_config:
+          install:
+            find-links: file:///pip
+            no-index: 'yes'
 
   pip:
     upgrade: True
 
     config:
-      index_url: http://localhost:3141/root/pypi/+simple/
-      bin_env: /usr/bin/python3
+      install:
+        index-url: http://localhost:3141/root/pypi/+simple/
 
     packages:
       pyyaml:
-        upgrade: True
+        options:
+          upgrade: True
       jinja2 == 2.8:
-        bin_env: /opt/app/venv/bin/python
+        options:
+          bin_env: /opt/app/venv/bin/python
 
     requirements:
       app:
         source: salt://pip/requirements.txt
-        config:
+        options:
           bin_env: /opt/app2/venv/bin/python

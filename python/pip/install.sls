@@ -15,7 +15,7 @@ python_pip_packages:
 python_pip_upgrade:
   pip.installed:
     {%- if python.get('major_version', False) > 2 %}
-    - bin_env: {{python.pip3_bin}}
+    - bin_env: {{python.python3_bin}}
     {%- endif %}
     {%- if python.pip.get('version', False) %}
     - name: pip == {{python.pip.version}}

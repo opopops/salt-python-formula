@@ -2,12 +2,13 @@
 
 include:
   - python.pip.install
+  - python.pip.config
 
 {%- if python.get('virtualenv', False) %}
 python_virtualenv_package:
   pip.installed:
     {%- if python.get('major_version', False) > 2 %}
-    - bin_env: {{python.pip3_bin}}
+    - bin_env: {{python.python3_bin}}
     {%- endif %}
     {%- if python.virtualenv.get('version', False) %}
     - name: virtualenv == {{python.virtualenv.version}}
@@ -17,4 +18,5 @@ python_virtualenv_package:
     - reload_modules: True
     - require:
       - sls: python.pip.install
+      - sls: python.pip.config
 {%- endif %}
