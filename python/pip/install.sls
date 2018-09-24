@@ -28,6 +28,7 @@ python_pip_upgrade:
     - require:
       - pkg: python_pip_packages
       {%- if 'config' in python.pip %}
+      - file: python_pip_conf_file
       - ini: python_pip_conf_file
       {%- endif %}
   {%- endif %}

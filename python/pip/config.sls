@@ -11,7 +11,8 @@ python_pip_conf_file:
     - mode: 644
     - makedirs: True
   ini.options_present:
-    - separator: ' = '
+    - name: {{python.pip_conf_file}}
+    - separator: '='
     - strict: True
     - sections: {{python.pip.config}}
   {%- endif %}
