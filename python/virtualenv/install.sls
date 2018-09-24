@@ -7,7 +7,7 @@ include:
 python_virtualenv_package:
   pip.installed:
     {%- if python.get('major_version', False) > 2 %}
-    - bin_env: {{python.pip3_bin}}
+    - bin_env: {{python.python3_bin}}
     {%- endif %}
     {%- if python.virtualenv.get('version', False) %}
     - name: virtualenv == {{python.virtualenv.version}}

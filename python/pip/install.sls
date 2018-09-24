@@ -2,6 +2,7 @@
 
 include:
   - python.install
+  - python.pip.config
 
 python_pip_packages:
   pkg.installed:
@@ -15,7 +16,7 @@ python_pip_packages:
 python_pip_upgrade:
   pip.installed:
     {%- if python.get('major_version', False) > 2 %}
-    - bin_env: {{python.pip3_bin}}
+    - bin_env: {{python.python3_bin}}
     {%- endif %}
     {%- if python.pip.get('version', False) %}
     - name: pip == {{python.pip.version}}
@@ -26,5 +27,9 @@ python_pip_upgrade:
     - reload_modules: True
     - require:
       - pkg: python_pip_packages
+      {%- if 'config' in python.pip %}
+      - file: python_pip_conf_file
+      - ini: python_pip_conf_file
+      {%- endif %}
   {%- endif %}
 {%- endif %}
