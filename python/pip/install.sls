@@ -2,6 +2,7 @@
 
 include:
   - python.install
+  - python.pip.config
 
 python_pip_packages:
   pkg.installed:
@@ -26,5 +27,8 @@ python_pip_upgrade:
     - reload_modules: True
     - require:
       - pkg: python_pip_packages
+      {%- if 'config' in python.pip %}
+      - ini: python_pip_conf_file
+      {%- endif %}
   {%- endif %}
 {%- endif %}
