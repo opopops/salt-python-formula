@@ -20,10 +20,13 @@ that differ from what is in defaults.yaml
         'version': version,
         'major_version': major_version,
         'python_pkgs': ['python', 'python3'],
+        'python_dev_pkgs': ['python-dev', 'python3-dev'],
         'pip_pkgs': ['python-pip', 'python-setuptools', 'python3-pip', 'python3-setuptools'],
-        'pip_conf_file': '/etc/pip/pip.conf',
+        'pip_conf_file': '/etc/pip.conf',
         'python_bin': '/usr/bin/python',
         'python3_bin': '/usr/bin/python3',
+        'pip_bin': '/usr/bin/pip',
+        'pip3_bin': '/usr/bin/pip3',
     },
 }
 , grain="os_family"
