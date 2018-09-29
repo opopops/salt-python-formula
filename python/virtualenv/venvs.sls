@@ -5,11 +5,9 @@ include:
 
 {%- if 'virtualenv' in python %}
   {%- for venv, params in python.virtualenv.get('venvs', {}).items() %}
-    {%- set venv_path = params.path|default(venv) %}
-    {%- set options   = params.get('options', {}) %}
 python_virtualenv_{{venv}}_directory:
   file.directory:
-    - name: {{venv_path}}
+    - name: {{venv}}
     {%- if params.get('user', False) %}
     - user: {{params.user}}
     {%- endif %}
@@ -20,10 +18,10 @@ python_virtualenv_{{venv}}_directory:
     - mode: {{params.mode}}
     {%- endif %}
 
-    {%- if 'config' in params %}
+    {%- if 'pip_config' in params %}
 python_virtualenv_{{venv}}_pip_config:
   file.managed:
-    - name: {{venv_path | path_join('pip.conf')}}
+    - name: {{venv | path_join('pip.conf')}}
     {%- if params.get('user', False) %}
     - user: {{params.user}}
     {%- endif %}
@@ -33,19 +31,21 @@ python_virtualenv_{{venv}}_pip_config:
     - mode: 644
     - makedirs: True
   ini.options_present:
-    - name: {{venv_path | path_join('pip.conf')}}
+    - name: {{venv | path_join('pip.conf')}}
     - separator: '='
     - strict: True
-    - sections: {{params.config}}
+    - sections: {{params.pip_config}}
     - require_in:
       - virtualenv: python_virtualenv_{{venv}}
     {%- endif %}
 
 python_virtualenv_{{venv}}:
   virtualenv.managed:
-    - name: {{venv_path}}
-    {%- for k, v in options.items() %}
+    - name: {{venv}}
+    {%- for k, v in params.items() %}
+      {%- if k not in ['name', 'group', 'mode', 'pip_config'] %}
     - {{k}}: {{v}}
+      {%- endif %}
     {%- endfor %}
     - require:
       - sls: python.virtualenv.install

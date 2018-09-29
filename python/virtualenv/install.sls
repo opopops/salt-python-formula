@@ -2,6 +2,7 @@
 
 include:
   - python.pip.install
+  - python.pip.config
 
 {%- if python.get('virtualenv', False) %}
 python_virtualenv_package:
@@ -17,4 +18,5 @@ python_virtualenv_package:
     - reload_modules: True
     - require:
       - sls: python.pip.install
+      - sls: python.pip.config
 {%- endif %}

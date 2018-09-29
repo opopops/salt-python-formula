@@ -6,11 +6,11 @@ python:
     version: 16.0.0
 
     venvs:
-      app:
-        path: /op/app/venv
-        options:
-          python: /usr/bin/python3
-          user: pyuser
+      /op/app/venv:
+        python: /usr/bin/python3
+        user: pyuser
+        group: pyuser
+        mode: 755
         pip_config:
           install:
             find-links: file:///pip
