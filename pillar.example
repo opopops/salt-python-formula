@@ -24,15 +24,11 @@ python:
         index-url: http://localhost:3141/root/pypi/+simple/
 
     packages:
-      pyyaml:
-        options:
+      - flask
+      - pyyaml:
           upgrade: True
-      jinja2 == 2.8:
-        options:
+      - jinja2 == 2.8:
           bin_env: /opt/app/venv/bin/python
-
-    requirements:
-      app:
-        source: salt://pip/requirements.txt
-        options:
+      - venv_requirements:
+          requirements: salt://pip/requirements.txt
           bin_env: /opt/app2/venv/bin/python

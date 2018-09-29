@@ -23,6 +23,7 @@ python_virtualenv_{{venv}}_directory:
     {%- if 'config' in params %}
 python_virtualenv_{{venv}}_pip_config:
   file.managed:
+    - name: {{venv_path | path_join('pip.conf')}}
     {%- if params.get('user', False) %}
     - user: {{params.user}}
     {%- endif %}
@@ -32,7 +33,8 @@ python_virtualenv_{{venv}}_pip_config:
     - mode: 644
     - makedirs: True
   ini.options_present:
-    - separator: ' = '
+    - name: {{venv_path | path_join('pip.conf')}}
+    - separator: '='
     - strict: True
     - sections: {{params.config}}
     - require_in:

@@ -9,6 +9,3 @@ include:
   {%- if python.pip.get('packages', False) %}
   - python.pip.packages
   {%- endif %}
-  {%- if python.pip.get('requirements', False) %}
-  - python.pip.requirements
-  {%- endif %}
