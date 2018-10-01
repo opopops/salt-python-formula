@@ -16,6 +16,7 @@ python_virtualenv_{{venv}}_directory:
     {%- endif %}
     {%- if params.get('mode', False) %}
     - mode: {{params.mode}}
+    - makedirs: True
     {%- endif %}
 
     {%- if 'pip_config' in params %}
