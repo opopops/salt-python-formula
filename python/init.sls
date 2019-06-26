@@ -2,6 +2,7 @@
 
 include:
   - python.install
+  - python.ssl
   {%- if python.get('virtualenv', False) %}
   - python.virtualenv
   {%- endif %}
