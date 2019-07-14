@@ -12,7 +12,6 @@ python_pip_packages:
       - pkg: python_packages
 
 {%- if 'pip' in python %}
-  {%- if python.pip.get('upgrade', False) %}
 python_pip_upgrade:
   pip.installed:
     - bin_env: {{python.python_bin}}
@@ -21,7 +20,7 @@ python_pip_upgrade:
     {%- else %}
     - name: pip
     {%- endif %}
-    - upgrade: True
+    - upgrade: {{python.pip.get('upgrade', False)}}
     - reload_modules: True
     - require:
       - pkg: python_pip_packages
@@ -29,7 +28,7 @@ python_pip_upgrade:
       - file: python_pip_conf_file
       - ini: python_pip_conf_file
       {%- endif %}
-    {%- if 'pip3_bin' in python.keys() %}
+  {%- if 'pip3_bin' in python.keys() %}
 python3_pip_upgrade:
   pip.installed:
     - bin_env: {{python.python3_bin}}
@@ -38,7 +37,7 @@ python3_pip_upgrade:
     {%- else %}
     - name: pip
     {%- endif %}
-    - upgrade: True
+    - upgrade: {{python.pip.get('upgrade', False)}}
     - reload_modules: True
     - require:
       - pkg: python_pip_packages
@@ -46,6 +45,5 @@ python3_pip_upgrade:
       - file: python_pip_conf_file
       - ini: python_pip_conf_file
       {%- endif %}
-    {%- endif %}
   {%- endif %}
 {%- endif %}

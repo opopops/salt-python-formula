@@ -1,8 +1,7 @@
 {%- from "python/map.jinja" import python with context %}
 
 include:
-  - python.pip.install
-  - python.pip.config
+  - python.pip
 
 {%- if python.get('virtualenv', False) %}
 python_virtualenv_package:
@@ -16,7 +15,9 @@ python_virtualenv_package:
     - reload_modules: True
     - require:
       - sls: python.pip.install
+      {%- if 'config' in python.pip %}
       - sls: python.pip.config
+      {%- endif %}
   {%- if 'python3_bin' in python.keys() %}
 python3_virtualenv_package:
   pip.installed:
@@ -29,6 +30,8 @@ python3_virtualenv_package:
     - reload_modules: True
     - require:
       - sls: python.pip.install
+      {%- if 'config' in python.pip %}
       - sls: python.pip.config
+      {%- endif %}
   {%- endif %}
 {%- endif %}
