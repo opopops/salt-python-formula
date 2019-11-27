@@ -6,8 +6,8 @@ include:
 {%- if 'pip' in python %}
   {%- for package in python.pip.get('packages', []) %}
     {%- if package is mapping %}
-      {%- set package_name = package.keys()[0] %}
-      {%- set params       = package.get(package.keys()[0])|default({}) %}
+      {%- set package_name = package.keys()|list|first %}
+      {%- set params       = package.get(package.keys()|list|first)|default({}) %}
     {%- else %}
       {%- set package_name = package %}
     {%- endif %}
